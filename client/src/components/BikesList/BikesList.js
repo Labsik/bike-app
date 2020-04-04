@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import BikeItem from "../BikeItem/bikeItem";
 import { connect } from "react-redux";
 import { getBikes, deleteBike, rentBike } from "../../redux/actions";
+import Loader from "../utils/Loader";
 
 class BikesList extends Component {
   componentDidMount() {
@@ -25,6 +26,12 @@ class BikesList extends Component {
     const totalAmount = rentedBicycles.reduce((sum, bike) => {
       return sum + bike.price;
     }, 0);
+
+    const loading = this.props.loading;
+
+    if (loading) {
+      return <Loader />;
+    }
 
     return (
       <div>
@@ -74,10 +81,13 @@ class BikesList extends Component {
 
 const mapStateToProps = state => {
   return {
-    bikes: state.bikes
+    bikes: state.bikes,
+    app: state.loading
   };
 };
 
-export default connect(mapStateToProps, { getBikes, deleteBike, rentBike })(
-  BikesList
-);
+export default connect(mapStateToProps, {
+  getBikes,
+  deleteBike,
+  rentBike
+})(BikesList);

@@ -21,7 +21,11 @@ class AddBike extends Component {
       isRented: this.state.isRented
     };
 
-    this.props.addBike(newBike);
+    if (+this.state.price < 1) {
+      alert(`Price cannot be less than $1`);
+    } else {
+      this.props.addBike(newBike);
+    }
 
     console.log(newBike);
     this.setState({ name: "", price: "", bikeType: "custom", isRented: false });
@@ -89,7 +93,7 @@ class AddBike extends Component {
               placeholder="99.00"
               onChange={this.changeInputHandler}
               required
-              min="1"
+              // min="1"
             />
           </div>
           <button type="submit" className="btn align-self-end mb-3 submit-rent">
