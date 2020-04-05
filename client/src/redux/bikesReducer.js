@@ -21,7 +21,7 @@ export const bikesReducer = (state = initialState, action) => {
         ...state,
         bikes: state.bikes.filter((bike) => bike._id !== action.payload),
       };
-      
+
     case RENT_BIKE:
       return {
         ...state,
@@ -31,14 +31,6 @@ export const bikesReducer = (state = initialState, action) => {
             : bike
         ),
       };
-
-    // case RENT_BIKE:
-    //   return {
-    //     ...state,
-    //     bikes: state.bikes.map((bike) =>
-    //       bike.id === action.payload ? action.payload : bike
-    //     ),
-    //   };
 
     default:
       return state;
