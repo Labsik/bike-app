@@ -5,16 +5,6 @@ const router = express.Router();
 
 const Bike = require("../../models/Bike");
 
-// const mapDataToBikes = (bicycles) => {
-//   return bicycles.map(({ _id, name, bikeType, price, isRented }) => ({
-//     id: _id,
-//     name,
-//     bikeType,
-//     price,
-//     isRented,
-//   }));
-// };
-
 // @route   GET api/bikes
 // @desc    Get All Bikes
 // @access  Public
@@ -57,16 +47,14 @@ router.delete("/:id", (req, res) => {
   );
 });
 
-router.put("/:id", (req, res) => {
+router.post("/:id", (req, res) => {
   let _id = req.body._id;
-
   let bike = {
     name: req.body.name,
     price: req.body.price,
     bikeType: req.body.bikeType,
     isRented: req.body.isRented,
   };
-
   Bike.findByIdAndUpdate(_id, bike, { new: true }, (err, bike) => {
     if (err) {
       console.log("err", err);

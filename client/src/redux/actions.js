@@ -39,18 +39,11 @@ export const addBike = (bike) => (dispatch) => {
     });
 };
 
-export const rentBike = (id) => (dispatch) => {
-  axios.put(`/api/bikes/${id}`).then((res) =>
+export const rentBike = (id, bike) => (dispatch) => {
+  axios.post(`/api/bikes/${id}`, bike).then((res) =>
     dispatch({
       type: RENT_BIKE,
       payload: id,
     })
   );
 };
-
-// export const rentBike = (id) => {
-//   return {
-//     type: RENT_BIKE,
-//     payload: id,
-//   };
-// };
