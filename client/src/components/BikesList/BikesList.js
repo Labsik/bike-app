@@ -3,35 +3,28 @@ import React, { Component } from "react";
 import BikeItem from "../BikeItem/bikeItem";
 import { connect } from "react-redux";
 import { getBikes, deleteBike, rentBike } from "../../redux/actions";
-import Loader from "../utils/Loader";
 
 class BikesList extends Component {
   componentDidMount() {
     this.props.getBikes();
   }
 
-  deleteBike = id => {
+  deleteBike = (id) => {
     this.props.deleteBike(id);
   };
 
-  rentBike = id => {
+  rentBike = (id) => {
     this.props.rentBike(id);
   };
 
   render() {
     const { bikes } = this.props.bikes;
-    const rentedBicycles = bikes.filter(bike => !!bike.isRented);
-    const availableBicycles = bikes.filter(bike => !bike.isRented);
+    const rentedBicycles = bikes.filter((bike) => !!bike.isRented);
+    const availableBicycles = bikes.filter((bike) => !bike.isRented);
 
     const totalAmount = rentedBicycles.reduce((sum, bike) => {
       return sum + bike.price;
     }, 0);
-
-    const loading = this.props.loading;
-
-    if (loading) {
-      return <Loader />;
-    }
 
     return (
       <div>
@@ -43,7 +36,7 @@ class BikesList extends Component {
         </h3>
         <ul className="list-group mb-4">
           {rentedBicycles.length ? (
-            rentedBicycles.map(bike => {
+            rentedBicycles.map((bike) => {
               return (
                 <BikeItem key={bike._id} bike={bike} rentBike={this.rentBike} />
               );
@@ -60,7 +53,7 @@ class BikesList extends Component {
         </h3>
         <ul className="list-group">
           {availableBicycles.length ? (
-            availableBicycles.map(bike => {
+            availableBicycles.map((bike) => {
               return (
                 <BikeItem
                   key={bike._id}
@@ -79,15 +72,15 @@ class BikesList extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     bikes: state.bikes,
-    app: state.loading
+    app: state.loading,
   };
 };
 
 export default connect(mapStateToProps, {
   getBikes,
   deleteBike,
-  rentBike
+  rentBike,
 })(BikesList);

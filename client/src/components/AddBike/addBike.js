@@ -8,17 +8,17 @@ class AddBike extends Component {
     name: "",
     price: "",
     bikeType: "Custom",
-    isRented: false
+    isRented: false,
   };
 
-  submitHandler = e => {
+  submitHandler = (e) => {
     e.preventDefault();
 
     const newBike = {
       name: this.state.name,
       price: +this.state.price,
       bikeType: this.state.bikeType,
-      isRented: this.state.isRented
+      isRented: this.state.isRented,
     };
 
     if (+this.state.price < 1) {
@@ -31,11 +31,11 @@ class AddBike extends Component {
     this.setState({ name: "", price: "", bikeType: "custom", isRented: false });
   };
 
-  changeInputHandler = e => {
+  changeInputHandler = (e) => {
     e.persist();
-    this.setState(prev => ({
+    this.setState((prev) => ({
       ...prev,
-      ...{ [e.target.name]: e.target.value }
+      ...{ [e.target.name]: e.target.value },
     }));
   };
 
@@ -97,7 +97,7 @@ class AddBike extends Component {
             />
           </div>
           <button type="submit" className="btn align-self-end mb-3 submit-rent">
-            Submit rent
+            Submit rent!
           </button>
         </form>
       </div>
@@ -105,10 +105,9 @@ class AddBike extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     bikes: state.bikes,
-    alert: state.alert
   };
 };
 
