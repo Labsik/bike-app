@@ -1,7 +1,14 @@
-import { ADD_BIKE, DELETE_BIKE, RENT_BIKE, GET_BIKES } from "./types";
+import {
+  ADD_BIKE,
+  DELETE_BIKE,
+  TOGGLE_RENT_BIKE,
+  GET_BIKES,
+  LOADING_BIKES,
+} from "./types";
 
 const initialState = {
   bikes: [],
+  loading: false,
 };
 
 export const bikesReducer = (state = initialState, action) => {
@@ -10,6 +17,7 @@ export const bikesReducer = (state = initialState, action) => {
       return {
         ...state,
         bikes: action.payload,
+        loading: false,
       };
     case ADD_BIKE:
       return {
@@ -22,7 +30,7 @@ export const bikesReducer = (state = initialState, action) => {
         bikes: state.bikes.filter((bike) => bike._id !== action.payload),
       };
 
-    case RENT_BIKE:
+    case TOGGLE_RENT_BIKE:
       return {
         ...state,
         bikes: state.bikes.map((bike) =>
@@ -30,6 +38,11 @@ export const bikesReducer = (state = initialState, action) => {
             ? { ...bike, isRented: !bike.isRented }
             : bike
         ),
+      };
+    case LOADING_BIKES:
+      return {
+        ...state,
+        loading: true,
       };
 
     default:

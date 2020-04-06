@@ -1,14 +1,25 @@
 import axios from "axios";
 
-import { GET_BIKES, DELETE_BIKE, ADD_BIKE, RENT_BIKE } from "./types";
+import {
+  GET_BIKES,
+  DELETE_BIKE,
+  ADD_BIKE,
+  TOGGLE_RENT_BIKE,
+  HIDE_ALERT,
+  SHOW_ALERT,
+  LOADING_BIKES,
+} from "./types";
 
 export const getBikes = () => (dispatch) => {
-  axios
-    .get("/api/bikes")
-    .then((res) => dispatch({ type: GET_BIKES, payload: res.data }))
-    .catch((err) => {
-      console.log("err: ", err);
-    });
+  dispatch(setBikesLoading());
+  setTimeout(() => {
+    axios
+      .get("/api/bikes")
+      .then((res) => dispatch({ type: GET_BIKES, payload: res.data }))
+      .catch((err) => {
+        console.log("err: ", err);
+      });
+  }, 2000);
 };
 
 export const deleteBike = (id) => (dispatch) => {
@@ -39,11 +50,40 @@ export const addBike = (bike) => (dispatch) => {
     });
 };
 
-export const rentBike = (id, bike) => (dispatch) => {
-  axios.post(`/api/bikes/${id}`, bike).then((res) =>
-    dispatch({
-      type: RENT_BIKE,
-      payload: id,
-    })
-  );
+export const toggleRentBike = (id, bike) => {
+  return (dispatch) => {
+    axios
+      .put(`/api/bikes/${id}`, {
+        bike,
+      })
+      .then((res) =>
+        dispatch({
+          type: TOGGLE_RENT_BIKE,
+          payload: id,
+        })
+      );
+  };
+};
+
+export const showAlert = (text) => (dispatch) => {
+  dispatch({
+    type: SHOW_ALERT,
+    payload: text,
+  });
+
+  setTimeout(() => {
+    dispatch(hideAlert());
+  }, 3000);
+};
+
+export const hideAlert = () => {
+  return {
+    type: HIDE_ALERT,
+  };
+};
+
+export const setBikesLoading = () => {
+  return {
+    type: LOADING_BIKES,
+  };
 };

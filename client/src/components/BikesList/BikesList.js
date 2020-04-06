@@ -2,7 +2,13 @@ import React, { Component } from "react";
 
 import BikeItem from "../BikeItem/bikeItem";
 import { connect } from "react-redux";
-import { getBikes, deleteBike, rentBike } from "../../redux/actions";
+import {
+  getBikes,
+  deleteBike,
+  toggleRentBike,
+  setBikesLoading,
+} from "../../redux/actions";
+import Loader from "../utils/Loader";
 
 class BikesList extends Component {
   componentDidMount() {
@@ -13,11 +19,12 @@ class BikesList extends Component {
     this.props.deleteBike(id);
   };
 
-  rentBike = (id) => {
-    this.props.rentBike(id);
+  toggleRentBike = (id) => {
+    this.props.toggleRentBike(id);
   };
 
   render() {
+    const { loading } = this.props.bikes;
     const { bikes } = this.props.bikes;
     const rentedBicycles = bikes.filter((bike) => !!bike.isRented);
     const availableBicycles = bikes.filter((bike) => !bike.isRented);
@@ -25,6 +32,10 @@ class BikesList extends Component {
     const totalAmount = rentedBicycles.reduce((sum, bike) => {
       return sum + bike.price;
     }, 0);
+
+    if (loading) {
+      return <Loader />;
+    }
 
     return (
       <div>
@@ -34,11 +45,16 @@ class BikesList extends Component {
           </span>
           <strong>Your rent (Total: &#36;{totalAmount.toFixed(2)})</strong>
         </h3>
+
         <ul className="list-group mb-4">
           {rentedBicycles.length ? (
             rentedBicycles.map((bike) => {
               return (
-                <BikeItem key={bike._id} bike={bike} rentBike={this.rentBike} />
+                <BikeItem
+                  key={bike._id}
+                  bike={bike}
+                  toggleRentBike={this.toggleRentBike}
+                />
               );
             })
           ) : (
@@ -59,7 +75,7 @@ class BikesList extends Component {
                   key={bike._id}
                   bike={bike}
                   deleteBike={this.deleteBike}
-                  rentBike={this.rentBike}
+                  toggleRentBike={this.toggleRentBike}
                 />
               );
             })
@@ -75,12 +91,13 @@ class BikesList extends Component {
 const mapStateToProps = (state) => {
   return {
     bikes: state.bikes,
-    app: state.loading,
+    loading: state.bikes,
   };
 };
 
 export default connect(mapStateToProps, {
   getBikes,
   deleteBike,
-  rentBike,
+  toggleRentBike,
+  setBikesLoading,
 })(BikesList);

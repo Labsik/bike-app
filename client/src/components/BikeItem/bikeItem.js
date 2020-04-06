@@ -1,7 +1,7 @@
 import React from "react";
 import "./bikeItem.css";
 
-const BikeItem = ({ bike, deleteBike, rentBike }) => {
+const BikeItem = ({ bike, deleteBike, toggleRentBike }) => {
   return (
     <div className="card mb-3" key={bike._id}>
       <div className="card-body d-flex justify-content-between align-items-end">
@@ -14,7 +14,7 @@ const BikeItem = ({ bike, deleteBike, rentBike }) => {
             <button
               className="btn rent mr-5"
               onClick={() => {
-                rentBike(bike._id);
+                toggleRentBike(bike._id);
               }}
             >
               Rent
@@ -33,7 +33,7 @@ const BikeItem = ({ bike, deleteBike, rentBike }) => {
             <button
               className="btn btn-danger"
               onClick={() => {
-                rentBike(bike._id);
+                toggleRentBike(bike._id);
               }}
             >
               Cancel rent

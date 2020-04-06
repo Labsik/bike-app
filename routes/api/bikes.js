@@ -10,7 +10,6 @@ const Bike = require("../../models/Bike");
 // @access  Public
 router.get("/", (req, res) => {
   Bike.find()
-    // .sort({ date: -1 })
     .then((bikes) => res.json(bikes))
     .catch((err) => res.status(400).json("Error: " + err));
 });
@@ -47,14 +46,16 @@ router.delete("/:id", (req, res) => {
   );
 });
 
-router.post("/:id", (req, res) => {
-  let _id = req.body._id;
-  let bike = {
+router.put("/:id", (req, res) => {
+  const _id = req.body._id;
+
+  const bike = {
     name: req.body.name,
     price: req.body.price,
     bikeType: req.body.bikeType,
     isRented: req.body.isRented,
   };
+
   Bike.findByIdAndUpdate(_id, bike, { new: true }, (err, bike) => {
     if (err) {
       console.log("err", err);

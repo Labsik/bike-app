@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import "./addBike.css";
 import { connect } from "react-redux";
-import { addBike } from "../../redux/actions";
+import { addBike, showAlert } from "../../redux/actions";
+import Alert from "../utils/Alert";
 
 class AddBike extends Component {
   state = {
@@ -22,12 +23,12 @@ class AddBike extends Component {
     };
 
     if (+this.state.price < 1) {
-      alert(`Price cannot be less than $1`);
+      return this.props.showAlert("Price cannot be less than $1");
     } else {
       this.props.addBike(newBike);
+      this.props.showAlert("You add a bike to available list!");
     }
 
-    console.log(newBike);
     this.setState({ name: "", price: "", bikeType: "custom", isRented: false });
   };
 
@@ -48,6 +49,7 @@ class AddBike extends Component {
           </span>
           <strong>Create new rent</strong>
         </h3>
+        {this.props.app && <Alert text={this.props.app} />}
         <form
           className="d-flex justify-content-between p-4 mb-5"
           onSubmit={this.submitHandler}
@@ -93,7 +95,6 @@ class AddBike extends Component {
               placeholder="99.00"
               onChange={this.changeInputHandler}
               required
-              // min="1"
             />
           </div>
           <button type="submit" className="btn align-self-end mb-3 submit-rent">
@@ -108,7 +109,11 @@ class AddBike extends Component {
 const mapStateToProps = (state) => {
   return {
     bikes: state.bikes,
+    app: state.app.alert,
   };
 };
 
-export default connect(mapStateToProps, { addBike })(AddBike);
+export default connect(mapStateToProps, {
+  addBike,
+  showAlert,
+})(AddBike);
