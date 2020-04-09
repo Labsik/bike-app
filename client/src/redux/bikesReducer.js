@@ -6,9 +6,10 @@ import {
   LOADING_BIKES,
 } from "./types";
 
-const initialState = {
+export const initialState = {
   bikes: [],
   loading: false,
+  alert: null,
 };
 
 export const bikesReducer = (state = initialState, action) => {

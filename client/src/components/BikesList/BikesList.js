@@ -24,8 +24,7 @@ class BikesList extends Component {
   };
 
   render() {
-    const { loading } = this.props.bikes;
-    const { bikes } = this.props.bikes;
+    const { bikes, loading } = this.props.bikes;
     const rentedBicycles = bikes.filter((bike) => !!bike.isRented);
     const availableBicycles = bikes.filter((bike) => !bike.isRented);
 
